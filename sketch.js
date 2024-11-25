@@ -39,7 +39,7 @@ function caricaDati() {
     let continente = dataset.getString(i, 'continent'); // continente del fiume
     let lunghezza = dataset.getNum(i, 'length'); // lunghezza del fiume
 
-    // Se il fiume non è già stato aggiunto, aggiungilo
+    // Se il fiume non è già stato aggiunto, lo aggiunge
     if (!fiumiUnici[nomeFiume]) { //verifica se il fiume è già stato aggiunto, se no svolge questo ciclo.
       fiumiUnici[nomeFiume] = { nome: nomeFiume, continente, lunghezza };
     }
@@ -51,7 +51,7 @@ function caricaDati() {
   // Organizza i fiumi in base al continente e somma le lunghezze per ogni continente
   for (let nomeFiume in fiumiUnici) {
     let { continente, lunghezza } = fiumiUnici[nomeFiume];
-    if (!spiraliPerContinente[continente]) {
+    if (!spiraliPerContinente[continente]) { //spiraliPerContinente è l’oggetto che tiene traccia dei dati raggruppati per continente.
       spiraliPerContinente[continente] = { totalLength: 0, rivers: [] }; // crea una nuova entry per il continente se non esiste
     }
     spiraliPerContinente[continente].rivers.push({ nome: nomeFiume, lunghezza });
@@ -62,35 +62,6 @@ function caricaDati() {
   console.log('Spirali per continente:', spiraliPerContinente);
 }
 
-// Disegna il testo e le informazioni statiche (titoli, descrizioni)
-function disegnaTesti() {
-  //Titolo
-  fill(255); // imposta il colore del testo in bianco, con trasparenza
-  textFont(robotoFont); // usa il font Roboto
-  textSize(32); // imposta la dimensione del testo a 32px
-  textAlign(LEFT, TOP); // allinea il testo a sinistra e in alto
-  textStyle(BOLD); // usa uno stile di testo grassetto
-  text("Le Correnti Infinite: Spirali di Fiumi", 30, 20); // titolo principale
-  
-  // Sottotitolo 1
-  textSize(16); 
-  text("Le spirali rappresentano la somma delle lunghezze dei fiumi in scala 1:100 km", 30, 80);
-  
-  // Sottotitolo 2
-  textSize(12); 
-  text("Muoviti con il mouse sui pallini nella spirale per scoprire di più...", 30, 110);
-
-  // Freccia che indica di scorrere a destra
-  textSize(32);
-  text(">", windowWidth - 50, windowHeight -70);
-  
-  // Footer
-  textSize(16);
-  textStyle(BOLD);
-  text("Francesco Zanchetta - Information Design", 30, height - 70);
-}
-
-// Disegna le spirali e i dettagli relativi ai fiumi
 // Disegna le spirali e i dettagli relativi ai fiumi
 function disegnaSpirali() {
   let angoloIncremento = 0.1;
@@ -101,7 +72,7 @@ function disegnaSpirali() {
 
   // Ottieni i dati in un array e ordina per lunghezza totale decrescente
   let continentiOrdinati = Object.entries(spiraliPerContinente)
-    .sort(([, a], [, b]) => b.totalLength - a.totalLength);
+  .sort(([, a], [, b]) => b.totalLength - a.totalLength); //ordina i continenti per valore decrescente di lunghezza totale
 
   // Per ogni continente, disegna la spirale corrispondente
   for (let [continente, data] of continentiOrdinati) {
@@ -211,4 +182,32 @@ function disegnaListaFiumi(rivers, offsetX, startY) {
     text(`${i + 1}. ${fiume.nome} (${fiume.lunghezza} km)`, offsetX, currentY); // scrivi il nome e la lunghezza
     currentY += 25; // sposta la posizione verticale per il prossimo fiume
   });
+}
+
+// Disegna il testo e le informazioni statiche (titoli, descrizioni)
+function disegnaTesti() {
+  //Titolo
+  fill(255); // imposta il colore del testo in bianco, con trasparenza
+  textFont(robotoFont); // usa il font Roboto
+  textSize(32); // imposta la dimensione del testo a 32px
+  textAlign(LEFT, TOP); // allinea il testo a sinistra e in alto
+  textStyle(BOLD); // usa uno stile di testo grassetto
+  text("Le Correnti Infinite: Spirali di Fiumi", 30, 20); // titolo principale
+  
+  // Sottotitolo 1
+  textSize(16); 
+  text("Le spirali rappresentano la somma delle lunghezze dei fiumi in scala 1:100 km", 30, 80);
+  
+  // Sottotitolo 2
+  textSize(12); 
+  text("Muoviti con il mouse sui pallini nella spirale per scoprire di più...", 30, 110);
+
+  // Freccia che indica di scorrere a destra
+  textSize(32);
+  text(">", windowWidth - 50, windowHeight -70);
+  
+  // Footer
+  textSize(16);
+  textStyle(BOLD);
+  text("Francesco Zanchetta - Information Design", 30, height - 70);
 }
