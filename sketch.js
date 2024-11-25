@@ -151,7 +151,7 @@ function disegnaPalliniERiferimenti(rivers, offsetX, offsetY, angoloIncremento, 
       lunghezzaFiumeHover = fiume.lunghezza; // Salva la lunghezza per il testo hover
     }
 
-    reverseIndex--; // Decrementa l'indice per la numerazione dei fiumi
+    reverseIndex--; // Decrementa l'indice per la numerazione dei fiumi dal centro della spirale
   });
 
   pop();
