@@ -45,6 +45,9 @@ function caricaDati() {
     }
   }
 
+  // Verifica dei fiumi unici
+  console.log('Fiumi unici:', fiumiUnici);
+  
   // Organizza i fiumi in base al continente e somma le lunghezze per ogni continente
   for (let nomeFiume in fiumiUnici) {
     let { continente, lunghezza } = fiumiUnici[nomeFiume];
@@ -54,7 +57,9 @@ function caricaDati() {
     spiraliPerContinente[continente].rivers.push({ nome: nomeFiume, lunghezza });
     spiraliPerContinente[continente].totalLength += lunghezza / 100; // aggiunge la lunghezza, dividendo per 100 in scala
   }
-  
+
+  // Verifica della struttura di spiraliPerContinente
+  console.log('Spirali per continente:', spiraliPerContinente);
 }
 
 // Disegna il testo e le informazioni statiche (titoli, descrizioni)
@@ -86,17 +91,21 @@ function disegnaTesti() {
 }
 
 // Disegna le spirali e i dettagli relativi ai fiumi
+// Disegna le spirali e i dettagli relativi ai fiumi
 function disegnaSpirali() {
   let angoloIncremento = 0.1;
   let raggioIncremento = 0.2;
-  let offsetX = 150;
+  let offsetX = 250;
   let offsetY = windowHeight / 2;
   let distanzaContinente = 500;
 
+  // Ottieni i dati in un array e ordina per lunghezza totale decrescente
+  let continentiOrdinati = Object.entries(spiraliPerContinente)
+    .sort(([, a], [, b]) => b.totalLength - a.totalLength);
+
   // Per ogni continente, disegna la spirale corrispondente
-  for (let continente in spiraliPerContinente) {
-    let data = spiraliPerContinente[continente]; // ottieni i dati del continente
-    let rivers = data.rivers.sort((a, b) => a.lunghezza - b.lunghezza); // ordina i fiumi per lunghezza crescente a partire dal centro della spirale.
+  for (let [continente, data] of continentiOrdinati) {
+    let rivers = data.rivers.sort((a, b) => a.lunghezza - b.lunghezza); // ordina i fiumi per lunghezza crescente
 
     // Disegna la spirale per il continente
     disegnaSpirale(continente, data.totalLength, offsetX, offsetY, angoloIncremento, raggioIncremento);
@@ -134,7 +143,7 @@ function disegnaSpirale(continente, lunghezzaTotale, offsetX, offsetY, angoloInc
   textSize(20);
   textStyle(BOLD);
   textAlign(CENTER);
-  text(continente, offsetX, offsetY + 300); // posiziona il nome del continente
+  text(continente, offsetX, windowHeight -100); // posiziona il nome del continente
 }
 
 // Disegna i pallini e riferimenti numerici per ogni fiume
@@ -169,6 +178,7 @@ function disegnaPalliniERiferimenti(rivers, offsetX, offsetY, angoloIncremento, 
       text(reverseIndex, x + 7, y - 5); // mostra il numero del fiume
       nomeFiumeHover = fiume.nome; // imposta il nome del fiume per il testo hover
       lunghezzaFiumeHover = fiume.lunghezza; // imposta la lunghezza del fiume per il testo hover
+      
     }
 
     reverseIndex--; // decrementa l'indice per la numerazione dei fiumi
@@ -182,7 +192,7 @@ function disegnaPalliniERiferimenti(rivers, offsetX, offsetY, angoloIncremento, 
     textFont(robotoFont);
     textSize(12);
     textAlign(CENTER);
-    text(`${nomeFiumeHover} (${lunghezzaFiumeHover} km)`, offsetX, offsetY + 350);
+    text(`${nomeFiumeHover} (${lunghezzaFiumeHover} km)`, offsetX, windowHeight -70);
   }
 }
 
