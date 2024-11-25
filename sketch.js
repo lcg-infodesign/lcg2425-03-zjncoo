@@ -52,7 +52,7 @@ function caricaDati() {
   for (let nomeFiume in fiumiUnici) {
     let { continente, lunghezza } = fiumiUnici[nomeFiume];
     if (!spiraliPerContinente[continente]) { //spiraliPerContinente è l’oggetto che tiene traccia dei dati raggruppati per continente.
-      spiraliPerContinente[continente] = { totalLength: 0, rivers: [] }; // crea una nuova entry per il continente se non esiste
+      spiraliPerContinente[continente] = { totalLength: 0, rivers: [] }; // crea una nuova entry (coppia chiave-valore) per il continente se non esiste
     }
     spiraliPerContinente[continente].rivers.push({ nome: nomeFiume, lunghezza });
     spiraliPerContinente[continente].totalLength += lunghezza / 100; // aggiunge la lunghezza, dividendo per 100 in scala
@@ -66,17 +66,17 @@ function caricaDati() {
 function disegnaSpirali() {
   let angoloIncremento = 0.1;
   let raggioIncremento = 0.2;
-  let offsetX = 250;
+  let offsetX = 250; //parte da sinistra 250px
   let offsetY = windowHeight / 2;
   let distanzaContinente = 500;
 
   // Ottieni i dati in un array e ordina per lunghezza totale decrescente
-  let continentiOrdinati = Object.entries(spiraliPerContinente)
-  .sort(([, a], [, b]) => b.totalLength - a.totalLength); //ordina i continenti per valore decrescente di lunghezza totale
+  let continentiOrdinati = Object.entries(spiraliPerContinente) // Converte un oggetto (spiraliPerContinente) in un array di coppie chiave-valore ovvero la lunghezza totale e i fiumi associati ad ogni continente
+  .sort(([, a], [, b]) => b.totalLength - a.totalLength); // Ordina i continenti per valore decrescente di lunghezza totale
 
   // Per ogni continente, disegna la spirale corrispondente
   for (let [continente, data] of continentiOrdinati) {
-    let rivers = data.rivers.sort((a, b) => a.lunghezza - b.lunghezza); // ordina i fiumi per lunghezza crescente
+    let rivers = data.rivers.sort((a, b) => a.lunghezza - b.lunghezza); // ordina i fiumi per lunghezza crescente dal centro
 
     // Disegna la spirale per il continente
     disegnaSpirale(continente, data.totalLength, offsetX, offsetY, angoloIncremento, raggioIncremento);
@@ -85,7 +85,7 @@ function disegnaSpirali() {
     // Disegna la lista dei fiumi sotto la spirale
     disegnaListaFiumi(rivers, offsetX, windowHeight);
 
-    offsetX += distanzaContinente; // sposta la posizione orizzontale per il prossimo continente
+    offsetX += distanzaContinente; // sposta in sulle x per il prossimo continente
   }
 }
 
@@ -170,7 +170,7 @@ function disegnaPalliniERiferimenti(rivers, offsetX, offsetY, angoloIncremento, 
 function disegnaListaFiumi(rivers, offsetX, startY) {
   let currentY = startY + 50; // posizione iniziale verticale
 
-  // Ordina i fiumi per lunghezza decrescente
+  // Ordina i fiumi per lunghezza decrescente dall'alto al basso
   rivers.sort((a, b) => b.lunghezza - a.lunghezza);
 
   // Per ogni fiume, scrivi il suo nome e la lunghezza
