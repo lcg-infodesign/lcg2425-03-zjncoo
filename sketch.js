@@ -178,7 +178,6 @@ function disegnaPalliniERiferimenti(rivers, offsetX, offsetY, angoloIncremento, 
       text(reverseIndex, x + 7, y - 5); // mostra il numero del fiume
       nomeFiumeHover = fiume.nome; // imposta il nome del fiume per il testo hover
       lunghezzaFiumeHover = fiume.lunghezza; // imposta la lunghezza del fiume per il testo hover
-      
     }
 
     reverseIndex--; // decrementa l'indice per la numerazione dei fiumi
