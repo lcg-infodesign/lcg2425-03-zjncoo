@@ -4,7 +4,7 @@ let spiraliPerContinente = {}; // oggetto che contiene le spirali dei fiumi per 
 let robotoFont; // font da usare per il testo
 let hubotFont; // un altro font per il testo hover
 let currentStep = 0; // variabile per tenere traccia dello step corrente della spirale
-let stepIncrement = 5; // incremento per ogni step della spirale
+let stepIncrement = 10; // incremento per ogni step della spirale
 
 // Funzione di preload per caricare risorse (file e font)
 function preload() {
@@ -149,38 +149,38 @@ function disegnaSpirale(continente, lunghezzaTotale, offsetX, offsetY, angoloInc
 // Disegna i pallini e riferimenti numerici per ogni fiume
 function disegnaPalliniERiferimenti(rivers, offsetX, offsetY, angoloIncremento, raggioIncremento) {
   let currentRadius = 0, currentAngle = 0, reverseIndex = rivers.length;
-  let nomeFiumeHover = '', lunghezzaFiumeHover = ''; // variabili per il testo hover sui fiumi
+  let nomeFiumeHover = '', lunghezzaFiumeHover = ''; // Variabili per il testo hover sui fiumi
 
   push();
-  translate(offsetX, offsetY); // sposta il sistema di coordinate
+  translate(offsetX, offsetY); // Sposta il sistema di coordinate
 
   // Per ogni fiume, calcola la sua posizione sulla spirale e disegna il pallino
   rivers.forEach((fiume, i) => {
-    let distanzaFiume = fiume.lunghezza / 100; // calcola la distanza del fiume sulla spirale
-    for (let d = 0; d < min(currentStep, distanzaFiume); d++) {
-      currentAngle += angoloIncremento; // incrementa l'angolo
-      currentRadius += raggioIncremento; // incrementa il raggio
+    let distanzaFiume = fiume.lunghezza / 100; // Calcola la distanza del fiume sulla spirale
+    for (let d = 0; d < distanzaFiume; d++) { // Itera fino alla lunghezza totale del fiume
+      currentAngle += angoloIncremento; // Incrementa l'angolo
+      currentRadius += raggioIncremento; // Incrementa il raggio
     }
 
     let x = currentRadius * cos(currentAngle);
-    let y = currentRadius * sin(currentAngle); // calcola la posizione (x, y)
+    let y = currentRadius * sin(currentAngle); // Calcola la posizione (x, y)
     
-    fill(255); // imposta il colore del pallino
-    noStroke(); // non usare bordi
-    ellipse(x, y, 5, 5); // disegna un piccolo cerchio (pallino)
+    fill(255); // Colore bianco per il pallino
+    noStroke(); // Nessun bordo
+    ellipse(x, y, 5, 5); // Disegna un piccolo cerchio (pallino)
 
-    // Mostra il nome del fiume e la sua lunghezza quando il mouse è sopra
-    if (dist(mouseX - offsetX, mouseY - offsetY, x, y) < 2) { // entro 2 pixel dal centro del pallino
+    // Mostra il numero del fiume se il mouse è sopra il pallino
+    if (dist(mouseX - offsetX, mouseY - offsetY, x, y) < 2) { // Entro 2 pixel dal centro
       fill(255); 
       textSize(12); 
       textFont(hubotFont);
       textAlign(CENTER, CENTER);
-      text(reverseIndex, x + 7, y - 5); // mostra il numero del fiume
-      nomeFiumeHover = fiume.nome; // imposta il nome del fiume per il testo hover
-      lunghezzaFiumeHover = fiume.lunghezza; // imposta la lunghezza del fiume per il testo hover
+      text(reverseIndex, x + 7, y - 5); // Mostra il numero del fiume
+      nomeFiumeHover = fiume.nome; // Salva il nome per il testo hover
+      lunghezzaFiumeHover = fiume.lunghezza; // Salva la lunghezza per il testo hover
     }
 
-    reverseIndex--; // decrementa l'indice per la numerazione dei fiumi
+    reverseIndex--; // Decrementa l'indice per la numerazione dei fiumi
   });
 
   pop();
@@ -191,7 +191,7 @@ function disegnaPalliniERiferimenti(rivers, offsetX, offsetY, angoloIncremento, 
     textFont(robotoFont);
     textSize(12);
     textAlign(CENTER);
-    text(`${nomeFiumeHover} (${lunghezzaFiumeHover} km)`, offsetX, windowHeight -70);
+    text(`${nomeFiumeHover} (${lunghezzaFiumeHover} km)`, offsetX, windowHeight - 70);
   }
 }
 
